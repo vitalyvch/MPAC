@@ -1,0 +1,53 @@
+
+MPAC_BASE_DIR:=$(shell until [ -d makeinc ]; do cd ..; done; pwd)
+include $(MPAC_BASE_DIR)/makeinc/makefile.header
+
+
+DBG_CPU   = #-DDBG_MPAC -DDBG_MPAC_CPU
+DBGFLAGS  = $(DBG_XPATH) $(DBG_PARSE)
+
+CFLAGS = -g -c  $(DBGFLAGS) -Wall -D_FILE_OFFSET_BITS=64
+
+LIBDIR = 
+INC = $(MPAC_CFLAGS) 
+LIBS = $(MPAC_LDFLAGS) -lmpac -lm -lrt -lpthread
+
+OBJ = 	mpac_disk.o \
+	mpac_disk_bm.o \
+	mpac_disk_bm_wt.o \
+	mpac_disk_bm_rt.o \
+	#mpac_disk_bm_lo.o \
+
+
+all: 	mpac_disk_bm 
+
+mpac_disk_bm:	\
+	$(OBJ) \
+	$(MPAC_TARGET_DIR)/lib/libmpac.a
+	$(CC) -o mpac_disk_bm $(OBJ) $(LDFLAGS) $(LIBS)
+	cp -f mpac_disk_bm $(MPAC_TARGET_DIR)/bin
+
+clean:
+	$(RM) -f *.o *~ \
+	mpac_disk_bm 
+
+
+mpac_disk.o:	mpac_disk.c	mpac_disk.h
+	$(CC) mpac_disk.c $(CFLAGS) $(INC) 
+
+mpac_disk_bm_wt.o:	mpac_disk.c	mpac_disk.h
+	$(CC) mpac_disk_bm_wt.c $(CFLAGS) $(INC) $(INC_LIBXML)
+
+mpac_disk_bm_rt.o:	mpac_disk.c	mpac_disk.h
+	$(CC) mpac_disk_bm_rt.c $(CFLAGS) $(INC) $(INC_LIBXML)
+
+#mpac_disk_bm_lo.o:	mpac_disk.c	mpac_disk.h
+#	$(CC) mpac_disk_bm_lo.c $(CFLAGS) $(INC) $(INC_LIBXML)
+
+mpac_disk_bm.o:	\
+			mpac_disk_bm.c	\
+			mpac_disk.h	\
+			mpac_disk_bm_wt.c \
+			mpac_disk_bm_rt.c \
+			#mpac_disk_bm_lo.c
+	$(CC) mpac_disk_bm.c $(CFLAGS) $(INC) $(INC_LIBXML)

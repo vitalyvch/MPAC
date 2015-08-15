@@ -1,0 +1,37 @@
+#
+# Gloabl make configuration for mpac tools
+# Defines paths, commands, and flags
+# 
+
+ifndef MPAC_BASE_DIR
+	MPAC_BASE_DIR := $(shell until [ -d makeinc ]; do cd ..; done; pwd)
+endif
+
+UNAME := $(shell uname | tr '[A-Z]' '[a-z]') 
+
+CC   = gcc
+AR   = ar
+RM   = /bin/rm
+
+MPAC_COMMON_DIR        = $(MPAC_BASE_DIR)/common
+MPAC_BMS_DIR           = $(MPAC_BASE_DIR/benchmarks
+MPAC_APPS_DIR           = $(MPAC_BASE_DIR/apps
+MPAC_TARGET_DIR        = $(MPAC_BASE_DIR)/target
+MPAC_TESTS_DIR         = $(MPAC_BASE_DIR)/tests
+
+# OS specific flags
+MPAC_linux_CFLAGS      = 
+MPAC_sunos_CFLAGS      = 
+MPAC_linux_LDFLAGS     = -ldl -pthread -lrt -lm
+MPAC_sunos_LDFLAGS     = -lgen -lsocket -lnsl
+
+# Thirdparty components based cflags
+MPAC_THIRDPARTY_CFLAGS = #-I$(MPAC_TARGET_DIR)/thirdparty/libpcap/include
+
+MPAC_CFLAGS  = -I$(MPAC_TARGET_DIR)/include   \
+		$(MPAC_THIRDPARTY_CFLAGS) \
+		$(MPAC_$(UNAME)_CFLAGS) \
+		-D$(UNAME) 
+
+MPAC_LDFLAGS = -L$(MPAC_TARGET_DIR)/lib  \
+		$(MPAC_$(UNAME)_LDFLAGS)

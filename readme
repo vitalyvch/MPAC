@@ -1,0 +1,32 @@
+	mpac - Benchmarking suite for multicore processor based systems and high speed networks
+
+
+  Copyright (C) 2008 HPCNL-KICS, UET Lahore, PAKISTAN
+
+  mpac is free software; you can redistribute it and/or modify
+  it under the terms of the freeBSD style License.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  freeBSD License for more details.
+
+  You should have received a copy of the freeBSD style License as COPYING
+  along with this program.
+
+
+Installation:
+  Simply run the sequence of following three commands on shell
+  prompt in this directory (assumes that you have write permissions
+  in /usr/local to install):
+
+  # ./configure
+  # make
+  # make install
+ 
+  Alternatively, "make" in this directory will also build the mpac
+  library, sample benchmarks, and copy them in target directory.
+
+Comments are welcome.
+
+	- Ghulam Mustafa <admin.hpcnl@kics.edu.pk>

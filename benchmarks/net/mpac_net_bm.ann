@@ -1,0 +1,9 @@
+/* 
+ * Command line: opannotate image:./mpac_net_bm --source --assembly 
+ * 
+ * Interpretation of command line:
+ * Output annotated assembly listing with samples
+ * 
+ * CPU: Core 2, speed 1200 MHz (estimated)
+ * Counted CPU_CLK_UNHALTED events (Clock cycles when not halted) with a unit mask of 0x01 (Unhalted bus cycles) count 90000
+ */
