@@ -17,6 +17,7 @@ OBJ = 	mpac_cpu.o \
 	mpac_cpu_bm_fl.o \
 	mpac_cpu_bm_int.o \
 	mpac_cpu_bm_lo.o \
+	mpac_cpu_bm_sps.o \
 
 
 all: 	mpac_cpu_bm 
@@ -44,10 +45,14 @@ mpac_cpu_bm_int.o:	mpac_cpu.c	mpac_cpu.h
 mpac_cpu_bm_lo.o:	mpac_cpu.c	mpac_cpu.h
 	$(CC) mpac_cpu_bm_lo.c $(CFLAGS) $(INC) $(INC_LIBXML)
 
+mpac_cpu_bm_sps.o:	mpac_cpu.c	mpac_cpu.h
+	$(CC) mpac_cpu_bm_sps.c $(CFLAGS) $(INC) $(INC_LIBXML)
+
 mpac_cpu_bm.o:	\
 			mpac_cpu_bm.c	\
 			mpac_cpu.h	\
 			mpac_cpu_bm_fl.c \
 			mpac_cpu_bm_int.c \
+			mpac_cpu_bm_sps.c \
 			mpac_cpu_bm_lo.c
 	$(CC) mpac_cpu_bm.c $(CFLAGS) $(INC) $(INC_LIBXML)

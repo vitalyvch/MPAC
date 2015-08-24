@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright 2008 HPCNL-KICS, UET, Lahore, PAKISTAN.
+ * Copyright 2015 Vitaly Chernooky
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,51 +30,58 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of HPCNL-KICS.
  *
- ***************************************************************************** 
+ *****************************************************************************
+ *
+ * File:                 mpac_cpu_bm_sps.c
+ * Author:               Vitaly Chernooky
+ * 
+ * Created on August 24 2015
+ */
 
- File:   mpac_cpu.h
- Author: M. Hasan Jamal
+#include "mpac.h"
+#include "mpac_cpu.h"
 
- Created on November 10, 2008
-*/
-
-#ifndef _MPAC_CPU_H
-#define _MPAC_CPU_H
-
-#include"mpac.h"
-
-double *gtime, gtime1, gtime2;
-
-/* CPU benchmark configuration */
-struct mpac_cpu_config_t
+/*
+ * This function will implement specific functions to determin Spss.
+ */
+void* mpac_cpu_bm_sps(void *arg)
 {
-  int    		num_thrs;	// number of threads
-  unsigned long		num_reps;	// number of repetitions
-  unsigned int 		aff;		// Affinity Flag
-  char 			bm_uc;		// benchmark use case
-};
 
-/* CPU benchmark data context */
-struct mpac_cpu_context_t
-{
-  unsigned long			num_reps_per_thr;
-  int       			thr_id;
-  int				num_wrkrs;
-} ;
+  struct mpac_cpu_context_t *cpu_context = (struct mpac_cpu_context_t *) arg;
 
-struct mpac_cpu_context_t** mpac_cpu_configure(struct mpac_cpu_config_t cpu_config);
+  register unsigned long int i;
+  register int j = (int) random();
 
-/* function prototypes for the main */
-void mpac_cpu_usage (char * prog_name);
-void mpac_cpu_print_config (struct mpac_cpu_config_t * cpu_config);
-void mpac_cpu_default_config (struct mpac_cpu_config_t * cpu_config);
-int  mpac_cpu_parse_cmdl (int argc, char ** argv, struct mpac_cpu_config_t * cpu_config);
-void  mpac_cpu_output (double *tp, double *gt, int index);
-int mpac_cpu_arg_handler (int argc, char** argv, struct mpac_cpu_config_t * cpu_config);
+  mpac_thread_manager_barrier(&gtime1);
+  for (i=0; i<cpu_context->num_reps_per_thr; i++)
+    {
+      j = j + i;
+    }
+  mpac_thread_manager_barrier(&gtime2);
 
-void*  mpac_cpu_bm_fl(void*);
-void*  mpac_cpu_bm_int(void*);
-void*  mpac_cpu_bm_lo(void*);
-void*  mpac_cpu_bm_sps(void*);
+  gtime[0] = gtime2 - gtime1;
 
-#endif /* _MPAC_CPU_H */
+
+
+  mpac_thread_manager_barrier(&gtime1);
+  for (i=0; i<cpu_context->num_reps_per_thr; i++)
+    {
+      j = j - i;
+    }
+  mpac_thread_manager_barrier(&gtime2);
+
+  gtime[1] = gtime2 - gtime1;
+
+
+
+  mpac_thread_manager_barrier(&gtime1);
+  for (i=0; i<cpu_context->num_reps_per_thr; i++)
+    {
+      j = j * i;
+    }
+  mpac_thread_manager_barrier(&gtime2);
+
+  gtime[2] = gtime2 - gtime1;
+
+  return MPAC_SUCCESS;
+}

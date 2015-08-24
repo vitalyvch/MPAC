@@ -1,0 +1,7 @@
+*~
+lib*.a
+*.o
+*_app
+*_bm
+*_test
+target/

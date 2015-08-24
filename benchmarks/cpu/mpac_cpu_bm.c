@@ -132,6 +132,31 @@ else if (cpu_config.bm_uc == 'l'){
       
   }
 
+/*
+Sps case - Acutal work
+*/
+else if (cpu_config.bm_uc == 's'){
+
+        mpac_thread_manager_startj(&tm,                 /*Thread creation*/
+                               cpu_config.num_thrs, 
+                               &atr,
+                               cpu_config.aff,
+                               mpac_cpu_bm_sps,                              
+                               (void**)cpu_context);        
+
+ totalTP  = (double*)malloc(3 * sizeof(double)); 
+
+    for (j=0; j<3; j++)
+      totalTP[j] = (cpu_config.num_reps * cpu_config.num_thrs)/gtime[j];
+
+    for (j=0; j<3; j++)
+      gtime[j] = gtime[j]/cpu_config.num_reps;
+
+     /* print the results */
+    mpac_cpu_output(totalTP,gtime, 3);
+      
+  }
+
  else 
    {
   fprintf(stderr,"Invalid Use Case \n " );

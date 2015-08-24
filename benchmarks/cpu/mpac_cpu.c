@@ -47,7 +47,7 @@ void mpac_cpu_usage(char *prog_name)
   printf("-n          Number of threads \n");
   printf("-r          Number of Iterations \n");
   printf("-a          Core Affinity: [1 | 0] i.e. yes or no \n");
-  printf("-u          Use case: [f | l | i] i.e. (floating Point/logical/integer Operations)\n");
+  printf("-u          Use case: [f | l | i | s] i.e. (floating Point/logical/integer/Sps Operations)\n");
 
 }
 
@@ -108,7 +108,7 @@ int mpac_cpu_parse_cmdl(int argc, char **argv, struct mpac_cpu_config_t *cpu_con
 
 	case 'u':	  
 	  cpu_config->bm_uc = *optarg;
-          if (cpu_config->bm_uc != 'f' && cpu_config->bm_uc != 'l' && cpu_config->bm_uc != 'i') {
+          if (cpu_config->bm_uc != 'f' && cpu_config->bm_uc != 'l' && cpu_config->bm_uc != 'i' && cpu_config->bm_uc != 's') {
                 fprintf(stderr, "mpac_cpu_parse_cmdl: Use Case: %c "
 		      "is not usable \n", cpu_config->bm_uc);
 	      exit(MPAC_FAILURE);
@@ -155,6 +155,13 @@ void mpac_cpu_output(double *tp, double *time, int index){
 	else if (index == 3)
 	{
 	  printf("[LeftShift(mops),LeftShift(usec)] [RightShift(mops),RightShift(usec)] [comparision(mops),comparision(usec)]\n");
+	  for (i=0; i<3; i++)
+	    printf("[%.2lf, %lf] ",tp[i]/1000000.0, time[i] * 1000000.0);
+	}
+
+	else if (index == 4)
+	{
+	  printf("[(mops),(usec)] [(mops),(usec)] [(mops),(usec)]\n");
 	  for (i=0; i<3; i++)
 	    printf("[%.2lf, %lf] ",tp[i]/1000000.0, time[i] * 1000000.0);
 	}
