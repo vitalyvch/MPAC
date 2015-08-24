@@ -162,8 +162,9 @@ void mpac_cpu_output(double *tp, double *time, int index){
 	else if (index == 4)
 	{
 	  printf("[(mops),(usec)] [(mops),(usec)] [(mops),(usec)]\n");
-	  for (i=0; i<3; i++)
-	    printf("[%.2lf, %lf] ",tp[i]/1000000.0, time[i] * 1000000.0);
+	  for (i=0; i<6; i++)
+	    printf("%02u: [%.2lg, %lg, %lg]\n",
+               (1<<i), tp[i]/1000000.0, time[i] * 1000000.0, tp[i]/time[i]);
 	}
     printf("\n");
 }

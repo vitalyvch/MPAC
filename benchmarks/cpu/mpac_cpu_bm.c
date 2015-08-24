@@ -57,7 +57,7 @@ int main(int argc, char** argv)
  
   mpac_cpu_arg_handler(argc , argv, &cpu_config);
   cpu_context = mpac_cpu_configure(cpu_config);
-  gtime  = (double*)malloc(5 * sizeof(double)); 
+  gtime  = (double*)malloc(6 * sizeof(double)); 
 
 //floating point case - Actual work
 
@@ -132,29 +132,27 @@ else if (cpu_config.bm_uc == 'l'){
       
   }
 
-/*
-Sps case - Acutal work
-*/
-else if (cpu_config.bm_uc == 's'){
-
-        mpac_thread_manager_startj(&tm,                 /*Thread creation*/
+  /*
+   * Sps case - Acutal work
+   */
+  else if (cpu_config.bm_uc == 's'){
+    mpac_thread_manager_startj(&tm,                 /*Thread creation*/
                                cpu_config.num_thrs, 
                                &atr,
                                cpu_config.aff,
                                mpac_cpu_bm_sps,                              
                                (void**)cpu_context);        
 
- totalTP  = (double*)malloc(3 * sizeof(double)); 
+    totalTP  = (double*)malloc(6 * sizeof(double)); 
 
-    for (j=0; j<3; j++)
+    for (j=0; j<6; j++)
       totalTP[j] = (cpu_config.num_reps * cpu_config.num_thrs)/gtime[j];
 
-    for (j=0; j<3; j++)
+    for (j=0; j<6; j++)
       gtime[j] = gtime[j]/cpu_config.num_reps;
 
-     /* print the results */
-    mpac_cpu_output(totalTP,gtime, 3);
-      
+    /* print the results */
+    mpac_cpu_output(totalTP, gtime, 4);
   }
 
  else 
