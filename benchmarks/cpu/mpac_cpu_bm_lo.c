@@ -105,5 +105,7 @@ void* mpac_cpu_bm_lo(void *arg)
 
   gtime[2] = gtime2 - gtime1;
 
+  (void)x;
+
   return MPAC_SUCCESS;
 }

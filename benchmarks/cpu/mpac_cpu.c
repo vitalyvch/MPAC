@@ -161,10 +161,18 @@ void mpac_cpu_output(double *tp, double *time, int index){
 
 	else if (index == 4)
 	{
-	  printf("[(mops),(usec)] [(mops),(usec)] [(mops),(usec)]\n");
+	  double prev_thput = 0;
+
+	  printf("[Qty] \t[ThPut(Msps), \tLatency(nsec), \tPerf(Msps/nsec)]\n");
+
 	  for (i=0; i<6; i++)
-	    printf("%02u: [%.2lg, %lg, %lg]\n",
-               (1<<i), tp[i]/1000000.0, time[i] * 1000000.0, tp[i]/time[i]);
+		if (prev_thput > tp[i])
+			break;
+
+	    printf("%02u: \t[%.2lg, \t%lg, \t%lg]\n",
+               (1<<i), tp[i]/1000000.0, time[i] * 1000000000.0, tp[i]/time[i]);
+
+		prev_thput = tp[i];
 	}
     printf("\n");
 }
