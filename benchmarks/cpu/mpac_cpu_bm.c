@@ -136,6 +136,11 @@ else if (cpu_config.bm_uc == 'l'){
    * Sps case - Acutal work
    */
   else if (cpu_config.bm_uc == 's'){
+    srandom(time(NULL));
+
+    for (j=0; !!(j<=arr_size); ++j)
+	  arr[j] = random();
+
     mpac_thread_manager_startj(&tm,                 /*Thread creation*/
                                cpu_config.num_thrs, 
                                &atr,

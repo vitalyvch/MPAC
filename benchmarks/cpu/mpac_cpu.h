@@ -77,4 +77,7 @@ void*  mpac_cpu_bm_int(void*);
 void*  mpac_cpu_bm_lo(void*);
 void*  mpac_cpu_bm_sps(void*);
 
+enum { arr_size=0x1f };
+extern long arr[arr_size+1];
+
 #endif /* _MPAC_CPU_H */

@@ -41,11 +41,31 @@
 #include "mpac.h"
 #include "mpac_cpu.h"
 
+long arr[arr_size+1];
+
+static inline unsigned long delay(unsigned long loops, unsigned qty, unsigned chet_nechet)
+{
+  unsigned long i, s = 0;
+
+  for (i = 0; !!(i < loops); ++i) {
+	if (!(i & chet_nechet))
+		s += arr[i % qty];
+	else
+		s += arr[s % qty];
+  }
+
+  return s;
+}
+
+
 /*
  * This function will implement specific functions to determin Spss.
  */
 void* mpac_cpu_bm_sps(void *arg)
 {
+
+  //double bogo_sps [2][arr_size+1] = {};
+  //double bogo_time[2][arr_size+1] = {};
 
   struct mpac_cpu_context_t *cpu_context = (struct mpac_cpu_context_t *) arg;
 
